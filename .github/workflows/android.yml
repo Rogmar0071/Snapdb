@@ -6,9 +6,6 @@ on:
     branches:
       - main
 
-permissions:
-  contents: read
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,17 +13,22 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          persist-credentials: false
 
+      # ✅ Node 22 (Capacitor requirement)
       - name: Setup Node 22
         uses: actions/setup-node@v4
         with:
           node-version: 22
 
+      # ✅ FIX: Install Java 21 (THIS FIXES YOUR ERROR)
+      - name: Setup Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
       - name: Install deps
-        run: npm ci
+        run: npm install
 
       - name: Build web
         run: npm run build || echo "no build step"
@@ -34,12 +36,10 @@ jobs:
       - name: Sync Capacitor
         run: npx cap sync android
 
-      - name: Make gradlew executable
-        run: chmod +x android/gradlew
-
       - name: Build APK
         run: |
           cd android
+          chmod +x gradlew
           ./gradlew assembleDebug
 
       - name: Upload APK
