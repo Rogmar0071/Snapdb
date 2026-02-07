@@ -14,5 +14,13 @@
     "@capacitor/android": "^8.0.2",
     "@capacitor/cli": "^8.0.2",
     "@capacitor/core": "^8.0.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rogmar0071/Snapdb.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Rogmar0071/Snapdb/issues"
+  },
+  "homepage": "https://github.com/Rogmar0071/Snapdb#readme"
 }
