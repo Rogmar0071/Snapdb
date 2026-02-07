@@ -5,21 +5,43 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout repo
       - name: Checkout repo
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      # Setup Node 22 (REQUIRED by Capacitor 8)
       - name: Setup Node 22
         uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      # Install dependencies
       - name: Install deps
-        run
+        run: npm ci
+
+      - name: Build web
+        run: npm run build || echo "no build step"
+
+      - name: Sync Capacitor
+        run: npx cap sync android
+
+      - name: Fix gradlew permissions
+        run: chmod +x android/gradlew
+
+      - name: Build APK
+        run: |
+          cd android
+          ./gradlew assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: snapdb-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
