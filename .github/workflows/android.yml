@@ -1,4 +1,4 @@
-name: Build SnapDB Android APK
+name: SnapDB Android APK Build
 
 on:
   push:
@@ -7,11 +7,10 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repo
         uses: actions/checkout@v4
 
       # -------------------------
@@ -23,22 +22,27 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       # -------------------------
-      # Capacitor build
+      # Build web assets (safe even if empty)
       # -------------------------
-      - name: Build web assets
+      - name: Build web
         run: |
-          mkdir -p www
-          cp -r www/* www/ || true
-
-      - name: Sync Capacitor
-        run: |
-          npx cap sync android
+          if npm run | grep build; then
+            npm run build
+          else
+            echo "No build script — skipping"
+          fi
 
       # -------------------------
-      # Java + Android
+      # Capacitor (THE IMPORTANT FIX)
+      # -------------------------
+      - name: Sync Capacitor Android
+        run: npx --yes @capacitor/cli sync android
+
+      # -------------------------
+      # Java + Android SDK
       # -------------------------
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -52,11 +56,9 @@ jobs:
       # -------------------------
       # Build APK
       # -------------------------
-      - name: Build APK
-        run: |
-          cd android
-          chmod +x gradlew
-          ./gradlew assembleDebug
+      - name: Build Debug APK
+        working-directory: android
+        run: ./gradlew assembleDebug
 
       # -------------------------
       # Upload artifact
