@@ -2,51 +2,97 @@ name: Build SnapDB Android APK
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      # -----------------------------
+      # Checkout repo
+      # -----------------------------
+      - name: Checkout
         uses: actions/checkout@v4
 
+
+      # -----------------------------
+      # Setup Node
+      # -----------------------------
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
+
+      # -----------------------------
+      # Install npm dependencies
+      # CRITICAL (fixes your failure)
+      # -----------------------------
       - name: Install dependencies
         run: npm install
 
-      - name: Build web assets
-        run: |
-          mkdir -p www
-          cp -r www/* www/ 2>/dev/null || true
 
+      # -----------------------------
+      # Setup Java (required for Gradle)
+      # -----------------------------
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
-          distribution: temurin
-          java-version: 17
+          distribution: 'temurin'
+          java-version: '17'
 
+
+      # -----------------------------
+      # Setup Android SDK
+      # -----------------------------
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Add Capacitor Android
-        run: |
-          npx cap add android || true
-          npx cap copy
 
-      - name: Build APK
+      # -----------------------------
+      # Build web assets (www)
+      # If you don’t use build tools this still passes
+      # -----------------------------
+      - name: Build Web
+        run: |
+          if [ -f package.json ] && npm run | grep build; then
+            npm run build
+          else
+            echo "No build step — skipping"
+          fi
+
+
+      # -----------------------------
+      # Add Android platform
+      # -----------------------------
+      - name: Add Capacitor Android
+        run: npx cap add android || true
+
+
+      # -----------------------------
+      # Copy web → android
+      # -----------------------------
+      - name: Sync Capacitor
+        run: npx cap copy
+
+
+      # -----------------------------
+      # Build APK
+      # -----------------------------
+      - name: Build Debug APK
         run: |
           cd android
           chmod +x gradlew
           ./gradlew assembleDebug
 
+
+      # -----------------------------
+      # Upload APK artifact
+      # -----------------------------
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: snapdb-apk
-          path: android/app/build/outputs/apk/debug/*.apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
