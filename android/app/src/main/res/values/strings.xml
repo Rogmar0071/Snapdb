@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">SnapDB</string>
+    <string name="title_activity_main">SnapDB</string>
+    <string name="package_name">com.snapdb.app</string>
+    <string name="custom_url_scheme">com.snapdb.app</string>
+</resources>
