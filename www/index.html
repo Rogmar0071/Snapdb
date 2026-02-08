@@ -1,110 +1,126 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>SnapDB</title>
 
 <style>
 /* ===============================
-   SNAP POLISH — CALM UI SYSTEM
+   SNAP CALM THEME (Polish Mode)
    =============================== */
 
 :root{
-  --bg:#F2F4F7;            /* darker calm grey */
-  --blue-main:#2F6FE4;     /* primary buttons */
-  --blue-soft:#E7EEFF;     /* assistant bubbles */
-  --text:#1F2D3D;
+  --bg: #EEF2F6;
+  --card: #F7F9FC;
+  --primary: #3F6FD8;
+  --primary-soft: #E7F0FF;
+  --text: #1F2937;
+  --pill: #DDE7F6;
 }
+
+/* ---------- Base ---------- */
 
 body{
   margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto;
-  background:var(--bg);
-  color:var(--text);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto;
+  background: var(--bg);
+  color: var(--text);
 }
 
-/* ===============================
-   STATUS BAR (HIDDEN BY DEFAULT)
-   =============================== */
-
-.status-bar{
-  display:none;
-  gap:8px;
-  padding:14px;
-  flex-wrap:wrap;
+/* safe area */
+.app{
+  padding:
+    calc(env(safe-area-inset-top) + 12px)
+    16px
+    calc(env(safe-area-inset-bottom) + 90px);
 }
 
-body.env-selected .status-bar{
+/* ---------- Header ---------- */
+
+.header{
+  font-size: 24px;
+  font-weight: 700;
+  text-align:center;
+  margin-bottom: 12px;
+}
+
+/* ---------- Status pills ---------- */
+
+.status{
   display:flex;
+  gap:8px;
+  justify-content:center;
+  margin-bottom:16px;
 }
 
 .pill{
-  background:#e6f4ea;
+  background: var(--pill);
   padding:6px 12px;
-  border-radius:999px;
-  font-size:12px;
+  border-radius:20px;
+  font-size:13px;
 }
 
-/* ===============================
-   CHAT AREA
-   =============================== */
+/* ---------- Cards ---------- */
 
-.chat{
-  padding:16px;
-  padding-bottom:140px; /* space for input bar */
-}
-
-.bubble{
-  background:white;
-  border-radius:18px;
+.card{
+  background: var(--card);
+  border-radius:16px;
   padding:14px;
   margin-bottom:12px;
-  max-width:90%;
 }
 
-.bubble.user{
-  background:var(--blue-main);
+/* ---------- Buttons ---------- */
+
+.btn{
+  background: var(--primary);
   color:white;
-  margin-left:auto;
+  padding:14px;
+  border-radius:14px;
+  text-align:center;
+  margin-bottom:10px;
+  font-weight:600;
 }
 
-.bubble.assistant{
-  background:var(--blue-soft);
-}
-
-/* ===============================
-   WHATSAPP STYLE INPUT BAR
-   SAFE AREA FIX INCLUDED
-   =============================== */
+/* ---------- Chat input (WhatsApp style) ---------- */
 
 .input-bar{
   position:fixed;
-  bottom:calc(env(safe-area-inset-bottom) + 14px);
-  left:12px;
-  right:12px;
+  bottom:0;
+  left:0;
+  right:0;
+
+  padding:
+    10px
+    12px
+    calc(env(safe-area-inset-bottom) + 12px);
+
+  background: var(--bg);
 
   display:flex;
-  gap:8px;
+  gap:10px;
   align-items:center;
 }
 
 .input{
   flex:1;
   background:white;
-  border-radius:28px;
-  padding:14px 18px;
-  border:none;
+  border-radius:24px;
+  padding:12px 16px;
   font-size:15px;
+  border:none;
+  outline:none;
 }
 
 .mic{
-  width:54px;
-  height:54px;
+  width:48px;
+  height:48px;
+  background: var(--primary);
   border-radius:50%;
-  border:none;
-  background:var(--blue-main);
+  display:flex;
+  align-items:center;
+  justify-content:center;
   color:white;
   font-size:20px;
 }
@@ -113,72 +129,43 @@ body.env-selected .status-bar{
 
 <body>
 
-<!-- ===============================
-     STATUS PILLS
-     =============================== -->
-<div class="status-bar">
-  <div class="pill">Stock ✓</div>
-  <div class="pill">Cash ✓</div>
-  <div class="pill">Orders 3</div>
-  <div class="pill">AI ok</div>
+<div class="app">
+
+  <div class="header">SnapDB — Business Your Way</div>
+
+  <div class="status">
+    <div class="pill">Stock ✓</div>
+    <div class="pill">Cash ✓</div>
+    <div class="pill">Orders 3</div>
+    <div class="pill">AI ok</div>
+  </div>
+
+  <div class="card">Hi Roger 👋</div>
+  <div class="card">I'm SnapDB — your business assistant.</div>
+  <div class="card">What business would you like to explore?</div>
+
+  <div class="btn">Construction business</div>
+
+  <div class="card">Great. Loading construction demo environment...</div>
+
+  <div class="card">
+    Revenue today: R12,400<br>
+    Stock: R86,000<br>
+    Jobs: 4<br>
+    Cash: Healthy
+  </div>
+
+  <div class="btn">Inventory</div>
+  <div class="btn">Jobs</div>
+  <div class="btn">Suppliers</div>
+
 </div>
 
-
-<!-- ===============================
-     CHAT HISTORY
-     =============================== -->
-<div class="chat" id="chat">
-
-  <div class="bubble assistant">Hi Roger 👋</div>
-  <div class="bubble assistant">I'm SnapDB — your business assistant.</div>
-  <div class="bubble assistant">What business would you like to explore?</div>
-
-  <div class="bubble user" onclick="selectEnv()">Construction business</div>
-
-</div>
-
-
-<!-- ===============================
-     INPUT BAR
-     =============================== -->
+<!-- WhatsApp style bar -->
 <div class="input-bar">
   <input class="input" placeholder="Speak or type..." />
-  <button class="mic">🎤</button>
+  <div class="mic">🎤</div>
 </div>
-
-
-<script>
-/* ===============================
-   SIMULATION BRAIN (pilot demo)
-   =============================== */
-
-function addAssistant(text){
-  const chat = document.getElementById("chat");
-  chat.innerHTML += `<div class="bubble assistant">${text}</div>`;
-  window.scrollTo(0,document.body.scrollHeight);
-}
-
-function selectEnv(){
-
-  /* show status pills */
-  document.body.classList.add("env-selected");
-
-  addAssistant("Great. Loading construction demo environment…");
-
-  setTimeout(()=>{
-    addAssistant("Revenue today: R12,400<br>Stock: R86,000<br>Jobs: 4<br>Cash: Healthy");
-
-    addAssistant("What would you like to explore next?");
-
-    const chat = document.getElementById("chat");
-    chat.innerHTML += `
-      <div class="bubble user">Inventory</div>
-      <div class="bubble user">Jobs</div>
-      <div class="bubble user">Suppliers</div>
-    `;
-  },600);
-}
-</script>
 
 </body>
 </html>
