@@ -1,4 +1,4 @@
-name: Build SnapDB APK
+name: Android Build
 
 on:
   push:
@@ -9,31 +9,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node 22
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      - name: Install dependencies
-        run: npm install
+      - run: npm install
+      - run: npm install -D typescript
+      - run: npx cap sync android
 
-      - name: Install TypeScript (required by capacitor.config.ts)
-        run: npm install -D typescript
-
-      - name: Capacitor Sync
-        run: npx cap sync android
-
-      - name: Setup Java 17
+      - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 17
+          java-version: 21
 
       - name: Build APK
-        run: cd android && ./gradlew assembleDebug
+        run: |
+          cd android
+          ./gradlew assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
