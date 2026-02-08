@@ -25,5 +25,8 @@
   "bugs": {
     "url": "https://github.com/Rogmar0071/Snapdb/issues"
   },
-  "homepage": "https://github.com/Rogmar0071/Snapdb#readme"
+  "homepage": "https://github.com/Rogmar0071/Snapdb#readme",
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
 }
