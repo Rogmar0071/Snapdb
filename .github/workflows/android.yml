@@ -12,9 +12,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # 🔥 FIX: Node 22 (Capacitor requires >=22)
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - run: npm install
       - run: npx cap sync android
