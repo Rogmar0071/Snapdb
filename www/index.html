@@ -1,89 +1,89 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>SnapDB</title>
 
 <style>
-/* ===============================
-   SNAP CALM THEME (Polish Mode)
-   =============================== */
+/* ========= THEME ========= */
 
 :root{
-  --bg: #EEF2F6;
-  --card: #F7F9FC;
-  --primary: #3F6FD8;
-  --primary-soft: #E7F0FF;
-  --text: #1F2937;
-  --pill: #DDE7F6;
+  --bg:#E2E6EB;          /* darker soft grey */
+  --card:#F6F7F9;        /* soft white */
+  --text:#1F2937;
+  --accent:#5C7CFA;      /* softer modern blue */
+  --accent-light:#E7ECFF;
 }
 
-/* ---------- Base ---------- */
+/* ========= BASE ========= */
 
 body{
   margin:0;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto;
-  background: var(--bg);
-  color: var(--text);
+  font-family:system-ui,-apple-system;
+  background:var(--bg);
+  color:var(--text);
 }
 
-/* safe area */
 .app{
   padding:
-    calc(env(safe-area-inset-top) + 12px)
+    calc(env(safe-area-inset-top) + 16px)
     16px
-    calc(env(safe-area-inset-bottom) + 90px);
+    calc(env(safe-area-inset-bottom) + 100px);
 }
 
-/* ---------- Header ---------- */
+/* ========= HEADER ========= */
 
 .header{
-  font-size: 24px;
-  font-weight: 700;
   text-align:center;
-  margin-bottom: 12px;
+  font-weight:700;
+  font-size:20px;
+  margin-bottom:14px;
 }
 
-/* ---------- Status pills ---------- */
+/* ========= STATUS PILLS ========= */
 
 .status{
   display:flex;
   gap:8px;
   justify-content:center;
-  margin-bottom:16px;
+  margin-bottom:18px;
 }
 
 .pill{
-  background: var(--pill);
+  background:var(--accent-light);
   padding:6px 12px;
   border-radius:20px;
   font-size:13px;
 }
 
-/* ---------- Cards ---------- */
+/* ========= CHAT CARDS ========= */
 
 .card{
-  background: var(--card);
-  border-radius:16px;
+  background:var(--card);
   padding:14px;
-  margin-bottom:12px;
+  border-radius:16px;
+  margin-bottom:10px;
+
+  box-shadow:0 1px 2px rgba(0,0,0,0.04);
 }
 
-/* ---------- Buttons ---------- */
+/* ========= BUTTONS (modern subtle pills) ========= */
 
 .btn{
-  background: var(--primary);
-  color:white;
-  padding:14px;
-  border-radius:14px;
-  text-align:center;
-  margin-bottom:10px;
+  display:inline-block;
+  background:var(--accent-light);
+  color:var(--accent);
+
+  padding:10px 16px;
+  border-radius:22px;
+
   font-weight:600;
+  font-size:14px;
+
+  margin:6px 6px 6px 0;
 }
 
-/* ---------- Chat input (WhatsApp style) ---------- */
+/* ========= WHATSAPP BAR ========= */
 
 .input-bar{
   position:fixed;
@@ -91,38 +91,37 @@ body{
   left:0;
   right:0;
 
-  padding:
-    10px
-    12px
-    calc(env(safe-area-inset-bottom) + 12px);
+  background:var(--bg);
 
-  background: var(--bg);
+  padding:
+    10px 12px
+    calc(env(safe-area-inset-bottom) + 14px);
 
   display:flex;
   gap:10px;
-  align-items:center;
 }
 
 .input{
   flex:1;
-  background:white;
-  border-radius:24px;
-  padding:12px 16px;
-  font-size:15px;
   border:none;
-  outline:none;
+  border-radius:24px;
+  padding:12px 14px;
+  background:white;
 }
 
 .mic{
-  width:48px;
-  height:48px;
-  background: var(--primary);
+  width:46px;
+  height:46px;
+
   border-radius:50%;
+  background:var(--accent);
+
   display:flex;
   align-items:center;
   justify-content:center;
+
   color:white;
-  font-size:20px;
+  font-size:18px;
 }
 </style>
 </head>
@@ -141,12 +140,16 @@ body{
   </div>
 
   <div class="card">Hi Roger 👋</div>
+
   <div class="card">I'm SnapDB — your business assistant.</div>
+
   <div class="card">What business would you like to explore?</div>
 
-  <div class="btn">Construction business</div>
-
-  <div class="card">Great. Loading construction demo environment...</div>
+  <div>
+    <span class="btn">Construction</span>
+    <span class="btn">Retail</span>
+    <span class="btn">Restaurant</span>
+  </div>
 
   <div class="card">
     Revenue today: R12,400<br>
@@ -155,15 +158,10 @@ body{
     Cash: Healthy
   </div>
 
-  <div class="btn">Inventory</div>
-  <div class="btn">Jobs</div>
-  <div class="btn">Suppliers</div>
-
 </div>
 
-<!-- WhatsApp style bar -->
 <div class="input-bar">
-  <input class="input" placeholder="Speak or type..." />
+  <input class="input" placeholder="Speak or type...">
   <div class="mic">🎤</div>
 </div>
 
