@@ -1,71 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>SnapDB</title>
+<script type="module">
+import { takePhoto, pickFile, recordVoice } from './js/native.js'
 
-  <link rel="stylesheet" href="style.css" />
-</head>
-
-<body>
-
-  <div id="app">
-
-    <header class="header">
-      <h1>SnapDB — Business Your Way</h1>
-      <div id="statusPills" class="pills hidden"></div>
-    </header>
-
-    <main id="chat" class="chat"></main>
-
-    <!-- WhatsApp style bar -->
-    <div class="inputBar">
-      <button id="attachBtn" class="circle light">📎</button>
-
-      <input id="msgInput" placeholder="Speak or type..." />
-
-      <button id="micBtn" class="circle blue">🎤</button>
-      <button id="sendBtn" class="circle blue hidden">➤</button>
-    </div>
-
-  </div>
-
-<script src="engine.js"></script>
-<script src="assistant.js"></script>
-
-<script>
-const chat = document.getElementById("chat");
-const input = document.getElementById("msgInput");
-const send = document.getElementById("sendBtn");
-
-function addBubble(text, type="bot"){
-  const div = document.createElement("div");
-  div.className = "bubble " + type;
-  div.innerText = text;
-  chat.appendChild(div);
-  chat.scrollTop = chat.scrollHeight;
+document.querySelector('.attach-btn').onclick = async () => {
+  const path = await pickFile()
+  alert("Attachment saved")
 }
 
-input.addEventListener("input",()=>{
-  send.classList.toggle("hidden", !input.value.trim());
-});
-
-send.onclick = ()=>{
-  const t = input.value.trim();
-  if(!t) return;
-  addBubble(t,"user");
-  input.value="";
-  send.classList.add("hidden");
-
-  const reply = assistantReply(t);
-  if(reply) addBubble(reply,"bot");
-};
-
-addBubble("Hi Roger 👋");
-addBubble("I'm SnapDB — your business assistant.");
-addBubble("What business would you like to explore?");
+document.querySelector('.mic-btn').onclick = async () => {
+  await recordVoice()
+  alert("Voice recorded")
+}
 </script>
-
-</body>
-</html>
