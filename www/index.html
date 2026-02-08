@@ -1,160 +1,183 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+
 <title>SnapDB</title>
 
 <style>
+/* ===============================
+   SNAP POLISH — CALM UI SYSTEM
+   =============================== */
+
+:root{
+  --bg:#F2F4F7;            /* darker calm grey */
+  --blue-main:#2F6FE4;     /* primary buttons */
+  --blue-soft:#E7EEFF;     /* assistant bubbles */
+  --text:#1F2D3D;
+}
+
 body{
   margin:0;
-  font-family: system-ui;
-  background:#f6f7f9;
+  font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto;
+  background:var(--bg);
+  color:var(--text);
 }
 
-/* ===== HEADER ===== */
-.header{
-  text-align:center;
-  font-size:26px;
-  font-weight:700;
-  padding:18px;
-  background:white;
-  border-bottom:1px solid #ddd;
-}
+/* ===============================
+   STATUS BAR (HIDDEN BY DEFAULT)
+   =============================== */
 
-/* ===== STATUS BAR (hidden initially) ===== */
-.status{
+.status-bar{
   display:none;
-  position:sticky;
-  top:0;
-  background:white;
-  padding:8px;
   gap:8px;
-  justify-content:center;
-  border-bottom:1px solid #eee;
+  padding:14px;
+  flex-wrap:wrap;
+}
+
+body.env-selected .status-bar{
+  display:flex;
 }
 
 .pill{
+  background:#e6f4ea;
   padding:6px 12px;
-  border-radius:20px;
-  background:#e9f7ee;
+  border-radius:999px;
   font-size:12px;
 }
 
-/* ===== CHAT AREA ===== */
+/* ===============================
+   CHAT AREA
+   =============================== */
+
 .chat{
   padding:16px;
-  padding-bottom:110px;
+  padding-bottom:140px; /* space for input bar */
 }
 
-.msg{
+.bubble{
   background:white;
+  border-radius:18px;
   padding:14px;
-  border-radius:14px;
-  margin-bottom:10px;
-  max-width:85%;
+  margin-bottom:12px;
+  max-width:90%;
 }
 
-.btn{
-  background:#2d6cdf;
+.bubble.user{
+  background:var(--blue-main);
   color:white;
-  border-radius:20px;
-  padding:10px 14px;
-  display:inline-block;
-  margin-top:8px;
+  margin-left:auto;
 }
 
-/* ===== WHATSAPP INPUT ===== */
-.inputbar{
+.bubble.assistant{
+  background:var(--blue-soft);
+}
+
+/* ===============================
+   WHATSAPP STYLE INPUT BAR
+   SAFE AREA FIX INCLUDED
+   =============================== */
+
+.input-bar{
   position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  background:white;
-  padding:10px;
+  bottom:calc(env(safe-area-inset-bottom) + 14px);
+  left:12px;
+  right:12px;
+
   display:flex;
-  gap:10px;
+  gap:8px;
   align-items:center;
-  border-top:1px solid #ddd;
 }
 
-.inputbar input{
+.input{
   flex:1;
-  padding:12px;
-  border-radius:20px;
-  border:1px solid #ccc;
+  background:white;
+  border-radius:28px;
+  padding:14px 18px;
+  border:none;
+  font-size:15px;
 }
 
 .mic{
-  background:#2d6cdf;
-  color:white;
+  width:54px;
+  height:54px;
   border-radius:50%;
-  width:44px;
-  height:44px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  border:none;
+  background:var(--blue-main);
+  color:white;
+  font-size:20px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">SnapDB — Business Your Way</div>
-
-<div id="status" class="status">
+<!-- ===============================
+     STATUS PILLS
+     =============================== -->
+<div class="status-bar">
   <div class="pill">Stock ✓</div>
   <div class="pill">Cash ✓</div>
   <div class="pill">Orders 3</div>
   <div class="pill">AI ok</div>
 </div>
 
-<div id="chat" class="chat"></div>
 
-<div class="inputbar">
-  <input id="text" placeholder="Type or speak…" />
-  <div class="mic">🎤</div>
+<!-- ===============================
+     CHAT HISTORY
+     =============================== -->
+<div class="chat" id="chat">
+
+  <div class="bubble assistant">Hi Roger 👋</div>
+  <div class="bubble assistant">I'm SnapDB — your business assistant.</div>
+  <div class="bubble assistant">What business would you like to explore?</div>
+
+  <div class="bubble user" onclick="selectEnv()">Construction business</div>
+
 </div>
 
+
+<!-- ===============================
+     INPUT BAR
+     =============================== -->
+<div class="input-bar">
+  <input class="input" placeholder="Speak or type..." />
+  <button class="mic">🎤</button>
+</div>
+
+
 <script>
-const chat = document.getElementById("chat");
-const status = document.getElementById("status");
+/* ===============================
+   SIMULATION BRAIN (pilot demo)
+   =============================== */
 
-function say(text){
-  const m = document.createElement("div");
-  m.className="msg";
-  m.innerHTML=text;
-  chat.appendChild(m);
-  chat.scrollTop=chat.scrollHeight;
+function addAssistant(text){
+  const chat = document.getElementById("chat");
+  chat.innerHTML += `<div class="bubble assistant">${text}</div>`;
+  window.scrollTo(0,document.body.scrollHeight);
 }
 
-function button(label, action){
-  const b=document.createElement("div");
-  b.className="btn";
-  b.innerText=label;
-  b.onclick=action;
-  chat.appendChild(b);
+function selectEnv(){
+
+  /* show status pills */
+  document.body.classList.add("env-selected");
+
+  addAssistant("Great. Loading construction demo environment…");
+
+  setTimeout(()=>{
+    addAssistant("Revenue today: R12,400<br>Stock: R86,000<br>Jobs: 4<br>Cash: Healthy");
+
+    addAssistant("What would you like to explore next?");
+
+    const chat = document.getElementById("chat");
+    chat.innerHTML += `
+      <div class="bubble user">Inventory</div>
+      <div class="bubble user">Jobs</div>
+      <div class="bubble user">Suppliers</div>
+    `;
+  },600);
 }
-
-function start(){
-  say("Hi Roger 👋");
-  say("I'm SnapDB — your business assistant.");
-  say("What business would you like to explore?");
-  button("Construction business", loadDemo);
-}
-
-function loadDemo(){
-  status.style.display="flex";
-
-  say("Great. Loading construction demo environment…");
-  say("Revenue today: R12,400<br>Stock: R86,000<br>Jobs: 4<br>Cash: Healthy");
-
-  button("Inventory", ()=>say("Opening inventory…"));
-  button("Jobs", ()=>say("Opening jobs…"));
-  button("Suppliers", ()=>say("Opening suppliers…"));
-}
-
-start();
 </script>
 
 </body>
