@@ -1,69 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SnapDB</title>
 
-<title>SnapDB</title>
+  <style>
+    /* =====================================================
+       SNAP — CHAT FIRST HOME
+       MASTER COMPLIANT
+       No dashboards • No forms • No clutter
+       ===================================================== */
 
-<link rel="manifest" href="manifest.json">
-<link rel="stylesheet" href="css/style.css">
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: #f5f7fa;
+      color: #1f2937;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
 
-<style>
-/* prevents white flash on android */
-html,body{
-    background:#0b1220;
-}
-</style>
+    /* Header */
+    .header {
+      padding: 18px;
+      font-weight: 700;
+      font-size: 20px;
+      text-align: center;
+      background: white;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    /* Chat container */
+    .chat {
+      flex: 1;
+      overflow-y: auto;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* Message bubbles */
+    .msg {
+      max-width: 90%;
+      padding: 14px 16px;
+      border-radius: 14px;
+      line-height: 1.4;
+      font-size: 15px;
+    }
+
+    .bot {
+      background: white;
+      align-self: flex-start;
+      border: 1px solid #e5e7eb;
+    }
+
+    .user {
+      background: #2563eb;
+      color: white;
+      align-self: flex-end;
+    }
+
+    /* Status pills */
+    .status {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .pill {
+      font-size: 12px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: #e5e7eb;
+    }
+
+    .ok { background: #d1fae5; }
+    .warn { background: #fde68a; }
+    .bad { background: #fecaca; }
+
+    /* Voice button only */
+    .footer {
+      padding: 16px;
+      background: white;
+      border-top: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: center;
+    }
+
+    .mic {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: none;
+      background: #2563eb;
+      color: white;
+      font-size: 26px;
+    }
+
+    .mic:active {
+      transform: scale(0.96);
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
-<header class="topbar">
-    <div class="logo">
-        ⚡ SnapDB
-    </div>
-</header>
+  <div class="header">SnapDB — Business Your Way</div>
 
+  <div class="chat" id="chat">
 
-<!-- MAIN CONTENT -->
-<main class="chat">
-
-    <div class="bubble">
-        Hi Roger 👋
+    <div class="status">
+      <div class="pill ok">Stock ✓</div>
+      <div class="pill ok">Cash ✓</div>
+      <div class="pill warn">Orders 3</div>
+      <div class="pill ok">AI ok</div>
     </div>
 
-    <div class="bubble">
-        I'm SnapGPT,<br>
-        your business assistant.
+    <div class="msg bot">Hi Roger 👋</div>
+
+    <div class="msg bot">
+      I'm SnapDB — your business assistant.
     </div>
 
-    <div class="bubble">
-        Tell me what business you'd like to explore.<br>
-        Just speak or type.
+    <div class="msg bot">
+      What business would you like to explore?
     </div>
 
-</main>
+    <div class="msg bot">
+      You can say or type:<br><br>
+      • construction<br>
+      • restaurant<br>
+      • retail<br>
+      • or your own business
+    </div>
 
+  </div>
 
-<!-- BOTTOM INPUT BAR -->
-<footer class="inputbar">
+  <div class="footer">
+    <button class="mic" onclick="fakeVoice()">🎤</button>
+  </div>
 
-    <button id="voiceBtn" class="voice">
-        ⚡
-    </button>
+  <script>
+    // =====================================================
+    // Minimal demo only
+    // No accounting logic here (engine owns math per MASTER)
+    // UI only
+    // =====================================================
 
-    <input
-        id="textInput"
-        type="text"
-        placeholder="Say or type command..."
-    />
+    const chat = document.getElementById("chat");
 
-</footer>
+    function add(text, who="bot") {
+      const d = document.createElement("div");
+      d.className = "msg " + who;
+      d.innerHTML = text;
+      chat.appendChild(d);
+      chat.scrollTop = chat.scrollHeight;
+    }
 
+    function fakeVoice() {
+      add("Construction business", "user");
 
-<script src="js/app.js"></script>
+      setTimeout(() => {
+        add("Great. Loading a construction demo environment…");
+      }, 400);
+
+      setTimeout(() => {
+        add(
+          "Here’s your current snapshot:<br><br>" +
+          "Revenue today: <b>R12,400</b><br>" +
+          "Stock value: <b>R86,000</b><br>" +
+          "Jobs open: <b>4</b><br>" +
+          "Cash: <b>Healthy</b>"
+        );
+      }, 900);
+
+      setTimeout(() => {
+        add("What would you like to explore next?");
+      }, 1400);
+    }
+  </script>
 
 </body>
 </html>
