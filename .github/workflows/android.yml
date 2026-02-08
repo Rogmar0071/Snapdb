@@ -1,35 +1,41 @@
-name: Android Build
+name: Android APK Build
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 20
 
-      - run: npm install
-      - run: npm install -D typescript
-      - run: npx cap sync android
+      - name: Install deps
+        run: npm ci
+
+      - name: Build web
+        run: npm run build
+
+      - name: Sync capacitor
+        run: npx cap sync android
 
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 21
+          java-version: 17
 
       - name: Build APK
-        run: |
-          cd android
-          ./gradlew assembleDebug
+        working-directory: android
+        run: ./gradlew assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
