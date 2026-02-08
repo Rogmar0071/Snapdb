@@ -1,68 +1,23 @@
-/* =====================================
-   SNAP ENGINE
-   Ledger + Deterministic Math
-   Append only
-   ===================================== */
+const ledger = [];
 
-const SnapEngine = (() => {
+function append(event){
+  ledger.push({...event, ts:Date.now()});
+}
 
-  const KEY = "snap_ledger_v1";
+function inventory(){
+  let total=0;
+  ledger.forEach(e=>{
+    if(e.type==="in") total+=e.qty;
+    if(e.type==="out") total-=e.qty;
+  });
+  return total;
+}
 
-  let ledger = JSON.parse(localStorage.getItem(KEY) || "[]");
-
-  function save(){
-    localStorage.setItem(KEY, JSON.stringify(ledger));
-  }
-
-  function append(event){
-    event.id = crypto.randomUUID();
-    event.ts = Date.now();
-
-    ledger.push(event);
-    save();
-  }
-
-  function rebuild(){
-
-    let stock = 0;
-    let cash  = 0;
-    let orders = 0;
-
-    for(const e of ledger){
-
-      switch(e.type){
-
-        case "purchase":
-          stock += e.qty;
-          cash  -= e.amount;
-          break;
-
-        case "sale":
-          stock -= e.qty;
-          cash  += e.amount;
-          break;
-
-        case "expense":
-          cash -= e.amount;
-          break;
-
-        case "order":
-          orders += e.qty;
-          break;
-
-        case "dispatch":
-          orders -= e.qty;
-          break;
-      }
-    }
-
-    return { stock, cash, orders };
-  }
-
-  function getLedger(){
-    return ledger;
-  }
-
-  return { append, rebuild, getLedger };
-
-})();
+function cash(){
+  let c=0;
+  ledger.forEach(e=>{
+    if(e.type==="sale") c+=e.amount;
+    if(e.type==="expense") c-=e.amount;
+  });
+  return c;
+}

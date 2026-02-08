@@ -1,0 +1,76 @@
+body{
+  margin:0;
+  font-family:system-ui;
+  background:#e6eaee;
+}
+
+.header{
+  text-align:center;
+  padding:20px 12px 10px;
+}
+
+h1{
+  font-size:22px;
+  margin:0 0 10px;
+}
+
+.chat{
+  padding:10px 12px 120px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.bubble{
+  max-width:85%;
+  padding:14px;
+  border-radius:16px;
+  background:#f6f8fa;
+  box-shadow:0 2px 4px rgba(0,0,0,0.08);
+}
+
+.bubble.user{
+  align-self:flex-end;
+  background:#dbe8ff;
+}
+
+.inputBar{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  display:flex;
+  gap:8px;
+  padding:10px;
+  padding-bottom:calc(10px + env(safe-area-inset-bottom));
+  background:#e6eaee;
+}
+
+input{
+  flex:1;
+  border:none;
+  border-radius:24px;
+  padding:14px;
+  font-size:16px;
+}
+
+.circle{
+  width:46px;
+  height:46px;
+  border-radius:50%;
+  border:none;
+  font-size:18px;
+}
+
+.blue{
+  background:#4a6fdc;
+  color:white;
+}
+
+.light{
+  background:#dde3ea;
+}
+
+.hidden{
+  display:none;
+}

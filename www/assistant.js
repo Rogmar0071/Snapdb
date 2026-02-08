@@ -1,41 +1,24 @@
-/* =====================================
-   SNAP ASSISTANT
-   Suggest only (no math)
-   Converts chat -> events
-   ===================================== */
+function assistantReply(text){
 
-const SnapAssistant = (() => {
+  text = text.toLowerCase();
 
-  function parse(text){
-
-    text = text.toLowerCase();
-
-    const number = n => parseFloat(n);
-
-    if(text.includes("buy") || text.includes("bought")){
-      return {
-        type:"purchase",
-        qty:number(text.match(/\d+/)?.[0] || 0),
-        amount:number(text.match(/r?(\d+)/)?.[1] || 0)
-      };
-    }
-
-    if(text.includes("sold") || text.includes("sale")){
-      return {
-        type:"sale",
-        qty:number(text.match(/\d+/)?.[0] || 0),
-        amount:number(text.match(/r?(\d+)/)?.[1] || 0)
-      };
-    }
-
-    if(text.includes("expense")){
-      return {
-        type:"expense",
-        amount:number(text.match(/r?(\d+)/)?.[1] || 0)
-      };
-    }
-
-    return null;
+  if(text.includes("sale")){
+    append({type:"sale",amount:100});
+    return "Sale recorded 👍";
   }
 
-})();
+  if(text.includes("expense")){
+    append({type:"expense",amount:50});
+    return "Expense saved.";
+  }
+
+  if(text.includes("inventory")){
+    return "Stock level: " + inventory();
+  }
+
+  if(text.includes("cash")){
+    return "Cash balance: " + cash();
+  }
+
+  return "Got it.";
+}
