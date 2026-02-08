@@ -1,125 +1,144 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
 <title>SnapDB</title>
 
 <style>
-/* ========= THEME ========= */
+/* ===============================
+   SNAPDB — Modern Minimal Layout
+   WhatsApp style composer
+   =============================== */
 
 :root{
-  --bg:#E2E6EB;          /* darker soft grey */
-  --card:#F6F7F9;        /* soft white */
-  --text:#1F2937;
-  --accent:#5C7CFA;      /* softer modern blue */
-  --accent-light:#E7ECFF;
+  --bg:#e2e6ea;              /* darker soft grey */
+  --card:#ffffff;
+  --text:#1f2937;
+  --sub:#6b7280;
+
+  --blue:#4f7ee8;            /* lighter modern blue */
+  --blue-soft:#e7efff;
+
+  --radius:18px;
 }
 
-/* ========= BASE ========= */
+*{
+  box-sizing:border-box;
+  font-family: system-ui,-apple-system,Segoe UI,Roboto;
+}
 
 body{
   margin:0;
-  font-family:system-ui,-apple-system;
   background:var(--bg);
   color:var(--text);
+  padding-bottom:110px;
 }
 
-.app{
-  padding:
-    calc(env(safe-area-inset-top) + 16px)
-    16px
-    calc(env(safe-area-inset-bottom) + 100px);
-}
-
-/* ========= HEADER ========= */
-
+/* HEADER */
 .header{
   text-align:center;
+  padding:18px 12px 6px;
   font-weight:700;
   font-size:20px;
-  margin-bottom:14px;
 }
 
-/* ========= STATUS PILLS ========= */
-
-.status{
+/* CHAT AREA */
+.chat{
+  padding:14px;
   display:flex;
-  gap:8px;
-  justify-content:center;
-  margin-bottom:18px;
+  flex-direction:column;
+  gap:12px;
 }
-
-.pill{
-  background:var(--accent-light);
-  padding:6px 12px;
-  border-radius:20px;
-  font-size:13px;
-}
-
-/* ========= CHAT CARDS ========= */
 
 .card{
   background:var(--card);
-  padding:14px;
-  border-radius:16px;
-  margin-bottom:10px;
-
-  box-shadow:0 1px 2px rgba(0,0,0,0.04);
+  border-radius:var(--radius);
+  padding:14px 16px;
+  font-size:15px;
+  box-shadow:0 2px 6px rgba(0,0,0,.05);
 }
 
-/* ========= BUTTONS (modern subtle pills) ========= */
-
-.btn{
-  display:inline-block;
-  background:var(--accent-light);
-  color:var(--accent);
-
-  padding:10px 16px;
-  border-radius:22px;
-
-  font-weight:600;
-  font-size:14px;
-
-  margin:6px 6px 6px 0;
+/* Pills */
+.pills{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
 }
 
-/* ========= WHATSAPP BAR ========= */
+.pill{
+  background:var(--blue-soft);
+  color:#3b5fc0;
+  padding:6px 12px;
+  border-radius:999px;
+  font-size:13px;
+}
 
-.input-bar{
+/* ===============================
+   WhatsApp Style Composer
+   =============================== */
+
+.composer{
   position:fixed;
   bottom:0;
   left:0;
   right:0;
-
+  padding:10px 12px calc(10px + env(safe-area-inset-bottom));
   background:var(--bg);
-
-  padding:
-    10px 12px
-    calc(env(safe-area-inset-bottom) + 14px);
-
-  display:flex;
-  gap:10px;
 }
 
-.input{
-  flex:1;
-  border:none;
-  border-radius:24px;
-  padding:12px 14px;
-  background:white;
-}
-
-.mic{
-  width:46px;
-  height:46px;
-
-  border-radius:50%;
-  background:var(--accent);
-
+.bar{
   display:flex;
   align-items:center;
-  justify-content:center;
+  gap:8px;
+}
 
+.input-wrap{
+  flex:1;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:#fff;
+  border-radius:999px;
+  padding:8px 12px;
+  box-shadow:0 2px 6px rgba(0,0,0,.08);
+}
+
+input{
+  flex:1;
+  border:none;
+  outline:none;
+  font-size:15px;
+  background:transparent;
+}
+
+/* attachment */
+.attach{
+  font-size:18px;
+  opacity:.7;
+  cursor:pointer;
+}
+
+/* mic always visible */
+.mic{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  border:none;
+  background:var(--blue);
+  color:white;
+  font-size:20px;
+}
+
+/* send appears only when typing */
+.send{
+  display:none;
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  border:none;
+  background:var(--blue);
   color:white;
   font-size:18px;
 }
@@ -128,11 +147,13 @@ body{
 
 <body>
 
-<div class="app">
+<div class="header">
+SnapDB — Business Your Way
+</div>
 
-  <div class="header">SnapDB — Business Your Way</div>
+<div class="chat">
 
-  <div class="status">
+  <div class="pills">
     <div class="pill">Stock ✓</div>
     <div class="pill">Cash ✓</div>
     <div class="pill">Orders 3</div>
@@ -140,30 +161,51 @@ body{
   </div>
 
   <div class="card">Hi Roger 👋</div>
-
   <div class="card">I'm SnapDB — your business assistant.</div>
-
   <div class="card">What business would you like to explore?</div>
 
-  <div>
-    <span class="btn">Construction</span>
-    <span class="btn">Retail</span>
-    <span class="btn">Restaurant</span>
+  <div class="pills">
+    <div class="pill">Construction</div>
+    <div class="pill">Retail</div>
+    <div class="pill">Restaurant</div>
   </div>
 
   <div class="card">
-    Revenue today: R12,400<br>
-    Stock: R86,000<br>
-    Jobs: 4<br>
+    Revenue today: R12,400<br/>
+    Stock: R86,000<br/>
+    Jobs: 4<br/>
     Cash: Healthy
   </div>
 
 </div>
 
-<div class="input-bar">
-  <input class="input" placeholder="Speak or type...">
-  <div class="mic">🎤</div>
+<!-- Composer -->
+<div class="composer">
+  <div class="bar">
+
+    <div class="input-wrap">
+      <span class="attach">📎</span>
+      <input id="msg" placeholder="Type or speak..." />
+    </div>
+
+    <button id="mic" class="mic">🎤</button>
+    <button id="send" class="send">➤</button>
+
+  </div>
 </div>
+
+<script>
+const input = document.getElementById('msg');
+const send  = document.getElementById('send');
+
+input.addEventListener('input', () => {
+  if(input.value.trim().length > 0){
+    send.style.display = 'block';
+  } else {
+    send.style.display = 'none';
+  }
+});
+</script>
 
 </body>
 </html>
