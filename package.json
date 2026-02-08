@@ -7,11 +7,9 @@
     "build": "tsc"
   },
   "devDependencies": {
-    "typescript": "^5.4.0"
-  },
-  "dependencies": {
     "@capacitor/android": "^8.0.2",
     "@capacitor/cli": "^8.0.2",
-    "@capacitor/core": "^8.0.2"
+    "@capacitor/core": "^8.0.2",
+    "typescript": "^5.4.0"
   }
 }
